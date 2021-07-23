@@ -15,7 +15,8 @@ variables:
   containerRegistry: 'acrmsci.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
   tag: '$(Build.BuildId)'
-
+  subscription: 'VS Enterprise - 3'
+  applicationName: 'msci-dotnet'
   # Agent VM image name
   vmImageName: 'windows-latest'
 
@@ -37,3 +38,17 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+
+- stage: Deploy
+  displayName: Deploy to Containers for Web App
+  jobs:
+  - job: Deploy
+    displayName: Deploy
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: AzureWebAppContainer@1
+      inputs:
+        azureSubscription: $(subscription)
+        appName: '$(applicationName)'
+        containers: '$(containerRegistry)/$(imageRepository):$(tag)'
