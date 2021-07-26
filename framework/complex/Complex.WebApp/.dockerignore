@@ -1,0 +1,12 @@
+# directories
+**/bin/
+**/obj/
+**/out/
+**/packages/
+**/TestResults/
+**/publish/
+
+# files
+Dockerfile*
+**/*.trx
+**/*.md
